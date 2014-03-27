@@ -1,0 +1,43 @@
+package sed;
+
+
+import java.io.IOException;
+
+import de.greenrobot.daogenerator.DaoGenerator;
+import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Property;
+import de.greenrobot.daogenerator.Schema;
+import de.greenrobot.daogenerator.ToMany;
+
+public class Start {
+
+	/**
+	 * @param args
+	 * @throws Exception 
+	 * @throws IOException 
+	 */
+	public static void main(String[] args) throws IOException, Exception {
+		System.out.println("***");
+		Schema schema = new Schema(1, "sed.pricer");
+		createDB(schema);
+		new DaoGenerator().generateAll(schema,"../Pricer/src/sed/pricer/data");
+		
+	}
+
+	private static void createDB(Schema s) {
+		
+		// product
+		
+		// group/category
+		
+		// price
+		
+		// shop
+		Entity shop = s.addEntity("Shop");
+		shop.setTableName("SHOPS");
+		shop.addIdProperty();
+		shop.addStringProperty("name").notNull();
+		
+	}
+
+}
