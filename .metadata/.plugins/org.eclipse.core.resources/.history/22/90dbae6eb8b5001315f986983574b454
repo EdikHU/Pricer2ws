@@ -15,7 +15,7 @@ public class Start {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, Exception {
-		System.out.println("**");
+		System.out.println("*");
 		Schema schema = new Schema(1, "sed.pricer.data");
 		createDB(schema);
 		new DaoGenerator().generateAll(schema,"../Pricer/src");

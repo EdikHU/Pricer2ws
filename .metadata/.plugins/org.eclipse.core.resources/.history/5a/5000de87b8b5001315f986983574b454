@@ -65,7 +65,7 @@ public class Start extends Activity {
 	}
 
 	public void onClick(View v){
-//		context.finish(); 
+//		context.finish();
 		hehe = 0;
 //		startActivity(new Intent(context,ActProdCardList.class));
 	}

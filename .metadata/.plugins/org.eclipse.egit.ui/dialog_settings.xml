@@ -7,6 +7,8 @@
 	<list key="CommitDialog.committerValues">
 		<item value="Deck Y &lt;work@win.ds&gt;"/>
 	</list>
+	<section name="GitCommitMessageComponent">
+	</section>
 	<section name="org.eclipse.egit.ui.COMMIT_DIALOG_SECTION">
 		<item value="642" key="DIALOG_WIDTH"/>
 		<item value="102" key="DIALOG_Y_ORIGIN"/>
