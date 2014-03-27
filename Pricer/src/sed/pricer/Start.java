@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class Start extends Activity {
 
 	private Start context;
-	private int hehe;
+	private int hehe ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
