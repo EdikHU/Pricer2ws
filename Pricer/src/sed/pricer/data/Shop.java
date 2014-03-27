@@ -40,4 +40,9 @@ public class Shop {
         this.name = name;
     }
 
+	@Override
+	public String toString() {
+		return "Shop [id=" + id + ", name=" + name + "]";
+	}
+
 }
