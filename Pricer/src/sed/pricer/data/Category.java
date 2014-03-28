@@ -5,26 +5,24 @@ package sed.pricer.data;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 /**
- * Entity mapped to table T_SHOPS.
+ * Entity mapped to table T_CATEGORY.
  */
-public class Shop {
+public class Category {
 
     private Long id;
-    /** Not-null value. */
     private String name;
 
     // KEEP FIELDS - put your custom fields here
-    String someField;
     // KEEP FIELDS END
 
-    public Shop() {
+    public Category() {
     }
 
-    public Shop(Long id) {
+    public Category(Long id) {
         this.id = id;
     }
 
-    public Shop(Long id, String name) {
+    public Category(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -37,22 +35,15 @@ public class Shop {
         this.id = id;
     }
 
-    /** Not-null value. */
     public String getName() {
         return name;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setName(String name) {
         this.name = name;
     }
 
     // KEEP METHODS - put your custom methods here
-	@Override
-	public String toString() {
-		return "Shop [id=" + id + ", name=" + name + ", someField=" + someField
-				+ "]";
-	}
     // KEEP METHODS END
 
 }

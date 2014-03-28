@@ -4,5 +4,7 @@
     <string name="app_name">Pricer2</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="product_list_btn_add">Add</string>
+    <string name="product_list_btn_fd">FD</string>
+    
 </resources>
