@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".acts.ProductList" android:label="LabelAPCL"></activity>
+        <activity android:name=".acts.ProductDetail"></activity>
     </application>
 
 </manifest>

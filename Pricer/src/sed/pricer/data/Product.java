@@ -1,5 +1,6 @@
 package sed.pricer.data;
 
+import java.io.Serializable;
 import java.util.List;
 import sed.pricer.data.DaoSession;
 import de.greenrobot.dao.DaoException;
@@ -11,9 +12,13 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table T_PRODUCT.
  */
-public class Product {
+public class Product implements Serializable{
 
-    private Long id;
+    // KEEP FIELDS - put your custom fields here
+	private static final long serialVersionUID = 3814144351346508273L;
+    // KEEP FIELDS END
+
+	private Long id;
     private String name;
     private Long groupId;
     private Long priceId;
@@ -29,8 +34,6 @@ public class Product {
 
     private List<Price> priceList;
 
-    // KEEP FIELDS - put your custom fields here
-    // KEEP FIELDS END
 
     public Product() {
     }
@@ -155,7 +158,14 @@ public class Product {
         myDao.refresh(this);
     }
 
+
     // KEEP METHODS - put your custom methods here
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", groupId=" + groupId
+				+ ", priceId=" + priceId + ", group=" + group + ", priceList="
+				+ priceList + "]";
+	}
     // KEEP METHODS END
 
 }
