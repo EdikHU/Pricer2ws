@@ -1,5 +1,7 @@
 package sed.pricer.data;
 
+import java.io.Serializable;
+
 import sed.pricer.data.DaoSession;
 import de.greenrobot.dao.DaoException;
 
@@ -10,9 +12,12 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table T_GROUP.
  */
-public class Group {
+public class Group implements Serializable{
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private Long id;
     private String name;
     private Long categoryId;
 
@@ -27,6 +32,7 @@ public class Group {
 
 
     // KEEP FIELDS - put your custom fields here
+	private static final long serialVersionUID = -4309452539197670460L;
     // KEEP FIELDS END
 
     public Group() {
@@ -121,7 +127,14 @@ public class Group {
         myDao.refresh(this);
     }
 
+
     // KEEP METHODS - put your custom methods here
+	@Override
+	public String toString() {
+		return "Group [id=" + id + ", name=" + name + ", categoryId="
+				+ categoryId + ", category=" + category
+				+ ", category__resolvedKey=" + category__resolvedKey + "]";
+	}
     // KEEP METHODS END
 
 }

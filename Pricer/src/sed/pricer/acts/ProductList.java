@@ -18,6 +18,7 @@ import android.widget.ListView;
 public class ProductList extends Activity {
 
 	protected static final int RC_SHOW_PRODUCT_DETAIL = 0;
+	public static final String PROD_ITEM_ID = "prodItemID";
 	private ProductListAdapter productListAdapter;
 	private ListView lv;
 	private List<Product> productList;
@@ -44,7 +45,7 @@ public class ProductList extends Activity {
 				Product prod = productList.get(arg2);
 				prod.getGroup();
 				prod.getPriceList();
-				intent.putExtra("prodItemID", prod.getId());
+				intent.putExtra(PROD_ITEM_ID, prod.getId());
 				startActivityForResult(intent , RC_SHOW_PRODUCT_DETAIL);
 			}
 		});

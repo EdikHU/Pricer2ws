@@ -30,5 +30,9 @@ public class DB {
 	public static void delete(Object item) {
 		inst.delete(item);
 	}
+
+	public static void update(Object item) {
+		inst.update(item);
+	}
 	
 }

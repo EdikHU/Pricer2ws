@@ -8,6 +8,8 @@
     <string name="product_list_btn_fd">FD</string>
     <string name="product_detail_tv_name">ProductName</string>
     <string name="product_detail_tv_group">Group</string>
-    <string name="product_detail_tv_price">Price</string>
+    <string name="product_detail_tv_price">Price</string> 
+    <string name="group_list_btn_modify">Modify</string> 
+    <string name="group_list_btn_remove">Remove</string> 
     
 </resources>
