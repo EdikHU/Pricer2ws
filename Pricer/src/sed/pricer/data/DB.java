@@ -30,5 +30,5 @@ public class DB {
 	public static void delete(Object item) {
 		inst.delete(item);
 	}
-
+	
 }

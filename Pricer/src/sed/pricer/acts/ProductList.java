@@ -41,7 +41,10 @@ public class ProductList extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Intent intent = new Intent(context,ProductDetail.class);
-				intent.putExtra("prodItem", productList.get(arg2));
+				Product prod = productList.get(arg2);
+				prod.getGroup();
+				prod.getPriceList();
+				intent.putExtra("prodItemID", prod.getId());
 				startActivityForResult(intent , RC_SHOW_PRODUCT_DETAIL);
 			}
 		});
@@ -63,17 +66,11 @@ public class ProductList extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (RC_SHOW_PRODUCT_DETAIL == requestCode){
-			Product prod = (Product)data.getSerializableExtra("prodItem");
-			for ( Product elm : productList){
-				if ( elm.getId().equals( prod.getId()) ){
-					productList.remove(elm);
-					DB.delete(elm);
-					productList.add(prod);
-					DB.insert(prod);
-					productListAdapter.notifyDataSetChanged();
-					break;
-				}
+			productList.clear();
+			for (Product prod :DB.inst.getProductDao().loadAll()){
+				productList.add(prod);
 			}
+			productListAdapter.notifyDataSetChanged();
 		}
 	}
 	
