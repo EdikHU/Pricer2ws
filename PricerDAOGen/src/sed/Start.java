@@ -60,6 +60,12 @@ public class Start {
 		group.addToOne(category, categoryId);
 
 		
+		//manufactured
+		Entity factory = s.addEntity("Factory");
+		factory.setHasKeepSections(true);
+		factory.setTableName("T_FACTORY");
+		factory.addIdProperty();
+		factory.addStringProperty("name");
 		
 		// product
 		Entity product = s.addEntity("Product");
@@ -67,6 +73,9 @@ public class Start {
 		product.setTableName("T_PRODUCT");
 		product.addIdProperty();
 		product.addStringProperty("name");
+		
+		Property factoryId = product.addLongProperty("factoryId").getProperty();
+		product.addToOne(factory, factoryId);
 		
 		Property groupId = product.addLongProperty("groupId").getProperty();
 		product.addToOne(group, groupId);

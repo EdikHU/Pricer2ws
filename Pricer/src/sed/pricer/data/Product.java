@@ -14,12 +14,9 @@ import de.greenrobot.dao.DaoException;
  */
 public class Product implements Serializable{
 
-    // KEEP FIELDS - put your custom fields here
-	private static final long serialVersionUID = 3814144351346508273L;
-    // KEEP FIELDS END
-
-	private Long id;
+    private Long id;
     private String name;
+    private Long factoryId;
     private Long groupId;
     private Long priceId;
 
@@ -29,11 +26,17 @@ public class Product implements Serializable{
     /** Used for active entity operations. */
     private transient ProductDao myDao;
 
+    private Factory factory;
+    private Long factory__resolvedKey;
+
     private Group group;
     private Long group__resolvedKey;
 
     private List<Price> priceList;
 
+    // KEEP FIELDS - put your custom fields here
+	private static final long serialVersionUID = 3814144351346508273L;
+    // KEEP FIELDS END
 
     public Product() {
     }
@@ -42,9 +45,10 @@ public class Product implements Serializable{
         this.id = id;
     }
 
-    public Product(Long id, String name, Long groupId, Long priceId) {
+    public Product(Long id, String name, Long factoryId, Long groupId, Long priceId) {
         this.id = id;
         this.name = name;
+        this.factoryId = factoryId;
         this.groupId = groupId;
         this.priceId = priceId;
     }
@@ -71,6 +75,14 @@ public class Product implements Serializable{
         this.name = name;
     }
 
+    public Long getFactoryId() {
+        return factoryId;
+    }
+
+    public void setFactoryId(Long factoryId) {
+        this.factoryId = factoryId;
+    }
+
     public Long getGroupId() {
         return groupId;
     }
@@ -85,6 +97,31 @@ public class Product implements Serializable{
 
     public void setPriceId(Long priceId) {
         this.priceId = priceId;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    public Factory getFactory() {
+        Long __key = this.factoryId;
+        if (factory__resolvedKey == null || !factory__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            FactoryDao targetDao = daoSession.getFactoryDao();
+            Factory factoryNew = targetDao.load(__key);
+            synchronized (this) {
+                factory = factoryNew;
+            	factory__resolvedKey = __key;
+            }
+        }
+        return factory;
+    }
+
+    public void setFactory(Factory factory) {
+        synchronized (this) {
+            this.factory = factory;
+            factoryId = factory == null ? null : factory.getId();
+            factory__resolvedKey = factoryId;
+        }
     }
 
     /** To-one relationship, resolved on first access. */
@@ -158,14 +195,13 @@ public class Product implements Serializable{
         myDao.refresh(this);
     }
 
-
-    // KEEP METHODS - put your custom methods here
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", groupId=" + groupId
-				+ ", priceId=" + priceId + ", group=" + group + ", priceList="
-				+ priceList + "]";
+		return "Product [id=" + id + ", name=" + name + ", factory=" + factory
+				+ ", group=" + group + ", priceList=" + priceList + "]";
 	}
+
+    // KEEP METHODS - put your custom methods here
     // KEEP METHODS END
 
 }

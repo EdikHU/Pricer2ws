@@ -26,8 +26,10 @@ public class ProductDetail extends Activity {
 		context = this;
 		setContentView(R.layout.product_detail);
 		
-		Long prodId = (Long)getIntent().getSerializableExtra(ProductList.PROD_ITEM_ID);
-		prod = DB.inst.getProductDao().load(prodId);
+//		Long prodId = (Long)getIntent().getSerializableExtra(ProductList.PROD_ITEM_ID);
+//		prod = DB.inst.getProductDao().load(prodId);
+		
+		prod = DB.inst.getProductDao().load(((Product)getIntent().getSerializableExtra(ProductList.PROD_ITEM_ID)).getId());
 		
 		((EditText)findViewById(R.id.product_detail_name)).setText(prod.getName());
 

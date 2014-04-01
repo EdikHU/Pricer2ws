@@ -43,9 +43,7 @@ public class ProductList extends Activity {
 					long arg3) {
 				Intent intent = new Intent(context,ProductDetail.class);
 				Product prod = productList.get(arg2);
-				prod.getGroup();
-				prod.getPriceList();
-				intent.putExtra(PROD_ITEM_ID, prod.getId());
+				intent.putExtra(PROD_ITEM_ID, prod);
 				startActivityForResult(intent , RC_SHOW_PRODUCT_DETAIL);
 			}
 		});

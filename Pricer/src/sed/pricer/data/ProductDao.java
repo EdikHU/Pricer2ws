@@ -28,8 +28,9 @@ public class ProductDao extends AbstractDao<Product, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
-        public final static Property GroupId = new Property(2, Long.class, "groupId", false, "GROUP_ID");
-        public final static Property PriceId = new Property(3, Long.class, "priceId", false, "PRICE_ID");
+        public final static Property FactoryId = new Property(2, Long.class, "factoryId", false, "FACTORY_ID");
+        public final static Property GroupId = new Property(3, Long.class, "groupId", false, "GROUP_ID");
+        public final static Property PriceId = new Property(4, Long.class, "priceId", false, "PRICE_ID");
     };
 
     private DaoSession daoSession;
@@ -50,8 +51,9 @@ public class ProductDao extends AbstractDao<Product, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'T_PRODUCT' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'NAME' TEXT," + // 1: name
-                "'GROUP_ID' INTEGER," + // 2: groupId
-                "'PRICE_ID' INTEGER);"); // 3: priceId
+                "'FACTORY_ID' INTEGER," + // 2: factoryId
+                "'GROUP_ID' INTEGER," + // 3: groupId
+                "'PRICE_ID' INTEGER);"); // 4: priceId
     }
 
     /** Drops the underlying database table. */
@@ -75,14 +77,19 @@ public class ProductDao extends AbstractDao<Product, Long> {
             stmt.bindString(2, name);
         }
  
+        Long factoryId = entity.getFactoryId();
+        if (factoryId != null) {
+            stmt.bindLong(3, factoryId);
+        }
+ 
         Long groupId = entity.getGroupId();
         if (groupId != null) {
-            stmt.bindLong(3, groupId);
+            stmt.bindLong(4, groupId);
         }
  
         Long priceId = entity.getPriceId();
         if (priceId != null) {
-            stmt.bindLong(4, priceId);
+            stmt.bindLong(5, priceId);
         }
     }
 
@@ -104,8 +111,9 @@ public class ProductDao extends AbstractDao<Product, Long> {
         Product entity = new Product( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
-            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // groupId
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3) // priceId
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // factoryId
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // groupId
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // priceId
         );
         return entity;
     }
@@ -115,8 +123,9 @@ public class ProductDao extends AbstractDao<Product, Long> {
     public void readEntity(Cursor cursor, Product entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setGroupId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
-        entity.setPriceId(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setFactoryId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setGroupId(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setPriceId(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
      }
     
     /** @inheritdoc */
@@ -149,9 +158,12 @@ public class ProductDao extends AbstractDao<Product, Long> {
             StringBuilder builder = new StringBuilder("SELECT ");
             SqlUtils.appendColumns(builder, "T", getAllColumns());
             builder.append(',');
-            SqlUtils.appendColumns(builder, "T0", daoSession.getGroupDao().getAllColumns());
+            SqlUtils.appendColumns(builder, "T0", daoSession.getFactoryDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T1", daoSession.getGroupDao().getAllColumns());
             builder.append(" FROM T_PRODUCT T");
-            builder.append(" LEFT JOIN T_GROUP T0 ON T.'GROUP_ID'=T0.'_id'");
+            builder.append(" LEFT JOIN T_FACTORY T0 ON T.'FACTORY_ID'=T0.'_id'");
+            builder.append(" LEFT JOIN T_GROUP T1 ON T.'GROUP_ID'=T1.'_id'");
             builder.append(' ');
             selectDeep = builder.toString();
         }
@@ -161,6 +173,10 @@ public class ProductDao extends AbstractDao<Product, Long> {
     protected Product loadCurrentDeep(Cursor cursor, boolean lock) {
         Product entity = loadCurrent(cursor, 0, lock);
         int offset = getAllColumns().length;
+
+        Factory factory = loadCurrentOther(daoSession.getFactoryDao(), cursor, offset);
+        entity.setFactory(factory);
+        offset += daoSession.getFactoryDao().getAllColumns().length;
 
         Group group = loadCurrentOther(daoSession.getGroupDao(), cursor, offset);
         entity.setGroup(group);

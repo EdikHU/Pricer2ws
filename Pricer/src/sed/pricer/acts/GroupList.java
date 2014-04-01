@@ -3,6 +3,7 @@ package sed.pricer.acts;
 import java.util.List;
 
 import sed.pricer.R;
+import sed.pricer.data.Category;
 import sed.pricer.data.DB;
 import sed.pricer.data.Group;
 import android.app.Activity;
@@ -26,9 +27,12 @@ public class GroupList extends Activity{
 
 		group = (Group)getIntent().getSerializableExtra(ProductDetail.GROUP_FIELD);
 		if (group == null){
-			group = new Group();
+			group = DB.inst.getGroupDao().loadAll().get(0);
+			//DB.insert(group);
 		}
-		
+		//group = DB.inst.getGroupDao().load(group.getId());
+		Category c = group.getCategory();
+		System.out.println(c);
 		setContentView(R.layout.group_list);
 		
 		((EditText)findViewById(R.id.group_list_item_name)).setText(  group.getName() );

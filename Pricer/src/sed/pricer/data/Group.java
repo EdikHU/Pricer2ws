@@ -14,10 +14,7 @@ import de.greenrobot.dao.DaoException;
  */
 public class Group implements Serializable{
 
-    /**
-	 * 
-	 */
-	private Long id;
+    private Long id;
     private String name;
     private Long categoryId;
 
@@ -126,7 +123,6 @@ public class Group implements Serializable{
         }    
         myDao.refresh(this);
     }
-
 
     // KEEP METHODS - put your custom methods here
 	@Override
