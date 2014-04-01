@@ -1,5 +1,7 @@
 package sed.pricer.data;
 
+import java.io.Serializable;
+
 import sed.pricer.data.DaoSession;
 import de.greenrobot.dao.DaoException;
 
@@ -10,13 +12,13 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table T_PRICES.
  */
-public class Price {
+public class Price implements Serializable{
 
     private Long id;
-    private float cost;
-    /** Not-null value. */
+    private Float cost;
     private java.util.Date date;
     private Long shopID;
+    private Long productId;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -27,8 +29,12 @@ public class Price {
     private Shop shop;
     private Long shop__resolvedKey;
 
+    private Product product;
+    private Long product__resolvedKey;
+
 
     // KEEP FIELDS - put your custom fields here
+	private static final long serialVersionUID = -2078215733009044734L;
     // KEEP FIELDS END
 
     public Price() {
@@ -38,11 +44,12 @@ public class Price {
         this.id = id;
     }
 
-    public Price(Long id, float cost, java.util.Date date, Long shopID) {
+    public Price(Long id, Float cost, java.util.Date date, Long shopID, Long productId) {
         this.id = id;
         this.cost = cost;
         this.date = date;
         this.shopID = shopID;
+        this.productId = productId;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -59,20 +66,18 @@ public class Price {
         this.id = id;
     }
 
-    public float getCost() {
+    public Float getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public void setCost(Float cost) {
         this.cost = cost;
     }
 
-    /** Not-null value. */
     public java.util.Date getDate() {
         return date;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setDate(java.util.Date date) {
         this.date = date;
     }
@@ -83,6 +88,14 @@ public class Price {
 
     public void setShopID(Long shopID) {
         this.shopID = shopID;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     /** To-one relationship, resolved on first access. */
@@ -107,6 +120,31 @@ public class Price {
             this.shop = shop;
             shopID = shop == null ? null : shop.getId();
             shop__resolvedKey = shopID;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    public Product getProduct() {
+        Long __key = this.productId;
+        if (product__resolvedKey == null || !product__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ProductDao targetDao = daoSession.getProductDao();
+            Product productNew = targetDao.load(__key);
+            synchronized (this) {
+                product = productNew;
+            	product__resolvedKey = __key;
+            }
+        }
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        synchronized (this) {
+            this.product = product;
+            productId = product == null ? null : product.getId();
+            product__resolvedKey = productId;
         }
     }
 

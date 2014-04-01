@@ -7,6 +7,7 @@ import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
+import de.greenrobot.daogenerator.ToMany;
 
 public class Start {
 
@@ -31,18 +32,10 @@ public class Start {
 		shop.setHasKeepSections(true);
 		shop.setTableName("T_SHOPS");
 		shop.addIdProperty().autoincrement();
-		shop.addStringProperty("name").notNull();
+		shop.addStringProperty("name");
 		
-		// price
-		Entity price = s.addEntity("Price");
-		price.setHasKeepSections(true);
-		price.setTableName("T_PRICES");
-		price.addIdProperty();
-		price.addFloatProperty("cost").notNull();
-		Property priceDateProp = price.addDateProperty("date").notNull().getProperty();
-		Property shopIdProp = price.addLongProperty("shopID").getProperty();
-		price.addToOne(shop, shopIdProp);
-
+		
+		
 		// category
 		Entity category = s.addEntity("Category");
 		category.setHasKeepSections(true);
@@ -80,8 +73,23 @@ public class Start {
 		Property groupId = product.addLongProperty("groupId").getProperty();
 		product.addToOne(group, groupId);
 
-		Property priceId = product.addLongProperty("priceId").getProperty();
-		product.addToMany(price, priceId).orderAsc(priceDateProp);
+		// price
+		Entity price = s.addEntity("Price");
+		price.setHasKeepSections(true);
+		price.setTableName("T_PRICES");
+		price.addIdProperty();
+		price.addFloatProperty("cost");
+		Property priceDateProp = price.addDateProperty("date").getProperty();
+		
+		Property shopIdProp = price.addLongProperty("shopID").getProperty();
+		price.addToOne(shop, shopIdProp);
+		
+		Property productId = price.addLongProperty("productId").getProperty();
+		price.addToOne(product, productId);
+
+		ToMany productToPrices = product.addToMany(price, productId);
+		productToPrices.setName("prices");
+		productToPrices.orderAsc(priceDateProp);
 		
 		
 	}

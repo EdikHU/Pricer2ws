@@ -18,7 +18,6 @@ public class Product implements Serializable{
     private String name;
     private Long factoryId;
     private Long groupId;
-    private Long priceId;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -32,7 +31,7 @@ public class Product implements Serializable{
     private Group group;
     private Long group__resolvedKey;
 
-    private List<Price> priceList;
+    private List<Price> prices;
 
     // KEEP FIELDS - put your custom fields here
 	private static final long serialVersionUID = 3814144351346508273L;
@@ -45,12 +44,11 @@ public class Product implements Serializable{
         this.id = id;
     }
 
-    public Product(Long id, String name, Long factoryId, Long groupId, Long priceId) {
+    public Product(Long id, String name, Long factoryId, Long groupId) {
         this.id = id;
         this.name = name;
         this.factoryId = factoryId;
         this.groupId = groupId;
-        this.priceId = priceId;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -89,14 +87,6 @@ public class Product implements Serializable{
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
-    }
-
-    public Long getPriceId() {
-        return priceId;
-    }
-
-    public void setPriceId(Long priceId) {
-        this.priceId = priceId;
     }
 
     /** To-one relationship, resolved on first access. */
@@ -150,25 +140,25 @@ public class Product implements Serializable{
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public List<Price> getPriceList() {
-        if (priceList == null) {
+    public List<Price> getPrices() {
+        if (prices == null) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             PriceDao targetDao = daoSession.getPriceDao();
-            List<Price> priceListNew = targetDao._queryProduct_PriceList(id);
+            List<Price> pricesNew = targetDao._queryProduct_Prices(id);
             synchronized (this) {
-                if(priceList == null) {
-                    priceList = priceListNew;
+                if(prices == null) {
+                    prices = pricesNew;
                 }
             }
         }
-        return priceList;
+        return prices;
     }
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    public synchronized void resetPriceList() {
-        priceList = null;
+    public synchronized void resetPrices() {
+        prices = null;
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
@@ -195,11 +185,10 @@ public class Product implements Serializable{
         myDao.refresh(this);
     }
 
-
     // KEEP METHODS - put your custom methods here
 	@Override
 	public String toString() {
-		return "["+id+"]["+getGroup()+"]["+name+"]["+getFactory()+"]["+getPriceList()+"]";
+		return "["+id+"]["+getGroup()+"]["+name+"]["+getFactory()+"]["+getPrices()+"]";
 	}
     // KEEP METHODS END
 

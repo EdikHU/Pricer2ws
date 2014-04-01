@@ -66,7 +66,7 @@ public class ProductDetail extends Activity {
 		});
 		
 		// pricelist
-		priceList = prod.getPriceList();
+		priceList = prod.getPrices();
 		ListView lv = ((ListView)findViewById(R.id.product_detail_price_list_view));//.setText(prod.getGroup().getName());
 		ListAdapter priceListAdapter = new PriceListAdapter(this,priceList);
 		lv.setAdapter(priceListAdapter);
@@ -84,6 +84,10 @@ public class ProductDetail extends Activity {
 	public void onBackPressed() {
 		prod.setName(((TextView)findViewById(R.id.product_detail_name)).getText().toString());
 		DB.update(prod);
+
+//		Product tmpProd = DB.inst.getProductDao().load(prod.getId());
+//		System.out.println("HERE ** (productDetail return)["+tmpProd.getPrices()+"]");
+
 		setResult(RESULT_OK, new Intent());
 		super.onBackPressed();
 	}
@@ -100,7 +104,7 @@ public class ProductDetail extends Activity {
 			((TextView)findViewById(R.id.product_detail_factory)).setText(prod.getFactory().getName());
 			DB.update(prod);
 		} else if(requestCode == RC_SHOW_PRICE){
-			System.out.println("here");
+			//System.out.println("here");
 		}
 	}
 

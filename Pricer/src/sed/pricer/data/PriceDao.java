@@ -29,15 +29,15 @@ public class PriceDao extends AbstractDao<Price, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Cost = new Property(1, float.class, "cost", false, "COST");
+        public final static Property Cost = new Property(1, Float.class, "cost", false, "COST");
         public final static Property Date = new Property(2, java.util.Date.class, "date", false, "DATE");
         public final static Property ShopID = new Property(3, Long.class, "shopID", false, "SHOP_ID");
-        public final static Property PriceId = new Property(4, Long.class, "priceId", false, "PRICE_ID");
+        public final static Property ProductId = new Property(4, Long.class, "productId", false, "PRODUCT_ID");
     };
 
     private DaoSession daoSession;
 
-    private Query<Price> product_PriceListQuery;
+    private Query<Price> product_PricesQuery;
 
     public PriceDao(DaoConfig config) {
         super(config);
@@ -53,10 +53,10 @@ public class PriceDao extends AbstractDao<Price, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'T_PRICES' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'COST' REAL NOT NULL ," + // 1: cost
-                "'DATE' INTEGER NOT NULL ," + // 2: date
+                "'COST' REAL," + // 1: cost
+                "'DATE' INTEGER," + // 2: date
                 "'SHOP_ID' INTEGER," + // 3: shopID
-                "'PRICE_ID' INTEGER);"); // 4: priceId
+                "'PRODUCT_ID' INTEGER);"); // 4: productId
     }
 
     /** Drops the underlying database table. */
@@ -74,12 +74,25 @@ public class PriceDao extends AbstractDao<Price, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindDouble(2, entity.getCost());
-        stmt.bindLong(3, entity.getDate().getTime());
+ 
+        Float cost = entity.getCost();
+        if (cost != null) {
+            stmt.bindDouble(2, cost);
+        }
+ 
+        java.util.Date date = entity.getDate();
+        if (date != null) {
+            stmt.bindLong(3, date.getTime());
+        }
  
         Long shopID = entity.getShopID();
         if (shopID != null) {
             stmt.bindLong(4, shopID);
+        }
+ 
+        Long productId = entity.getProductId();
+        if (productId != null) {
+            stmt.bindLong(5, productId);
         }
     }
 
@@ -100,9 +113,10 @@ public class PriceDao extends AbstractDao<Price, Long> {
     public Price readEntity(Cursor cursor, int offset) {
         Price entity = new Price( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getFloat(offset + 1), // cost
-            new java.util.Date(cursor.getLong(offset + 2)), // date
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3) // shopID
+            cursor.isNull(offset + 1) ? null : cursor.getFloat(offset + 1), // cost
+            cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)), // date
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // shopID
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // productId
         );
         return entity;
     }
@@ -111,9 +125,10 @@ public class PriceDao extends AbstractDao<Price, Long> {
     @Override
     public void readEntity(Cursor cursor, Price entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCost(cursor.getFloat(offset + 1));
-        entity.setDate(new java.util.Date(cursor.getLong(offset + 2)));
+        entity.setCost(cursor.isNull(offset + 1) ? null : cursor.getFloat(offset + 1));
+        entity.setDate(cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)));
         entity.setShopID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setProductId(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
      }
     
     /** @inheritdoc */
@@ -139,18 +154,18 @@ public class PriceDao extends AbstractDao<Price, Long> {
         return true;
     }
     
-    /** Internal query to resolve the "priceList" to-many relationship of Product. */
-    public List<Price> _queryProduct_PriceList(Long priceId) {
+    /** Internal query to resolve the "prices" to-many relationship of Product. */
+    public List<Price> _queryProduct_Prices(Long productId) {
         synchronized (this) {
-            if (product_PriceListQuery == null) {
+            if (product_PricesQuery == null) {
                 QueryBuilder<Price> queryBuilder = queryBuilder();
-                queryBuilder.where(Properties.PriceId.eq(null));
+                queryBuilder.where(Properties.ProductId.eq(null));
                 queryBuilder.orderRaw("DATE ASC");
-                product_PriceListQuery = queryBuilder.build();
+                product_PricesQuery = queryBuilder.build();
             }
         }
-        Query<Price> query = product_PriceListQuery.forCurrentThread();
-        query.setParameter(0, priceId);
+        Query<Price> query = product_PricesQuery.forCurrentThread();
+        query.setParameter(0, productId);
         return query.list();
     }
 
@@ -162,8 +177,11 @@ public class PriceDao extends AbstractDao<Price, Long> {
             SqlUtils.appendColumns(builder, "T", getAllColumns());
             builder.append(',');
             SqlUtils.appendColumns(builder, "T0", daoSession.getShopDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T1", daoSession.getProductDao().getAllColumns());
             builder.append(" FROM T_PRICES T");
             builder.append(" LEFT JOIN T_SHOPS T0 ON T.'SHOP_ID'=T0.'_id'");
+            builder.append(" LEFT JOIN T_PRODUCT T1 ON T.'PRODUCT_ID'=T1.'_id'");
             builder.append(' ');
             selectDeep = builder.toString();
         }
@@ -176,6 +194,10 @@ public class PriceDao extends AbstractDao<Price, Long> {
 
         Shop shop = loadCurrentOther(daoSession.getShopDao(), cursor, offset);
         entity.setShop(shop);
+        offset += daoSession.getShopDao().getAllColumns().length;
+
+        Product product = loadCurrentOther(daoSession.getProductDao(), cursor, offset);
+        entity.setProduct(product);
 
         return entity;    
     }

@@ -41,7 +41,7 @@ public class ShopDao extends AbstractDao<Shop, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'T_SHOPS' (" + //
                 "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "'NAME' TEXT NOT NULL );"); // 1: name
+                "'NAME' TEXT);"); // 1: name
     }
 
     /** Drops the underlying database table. */
@@ -59,7 +59,11 @@ public class ShopDao extends AbstractDao<Shop, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindString(2, entity.getName());
+ 
+        String name = entity.getName();
+        if (name != null) {
+            stmt.bindString(2, name);
+        }
     }
 
     /** @inheritdoc */
@@ -73,7 +77,7 @@ public class ShopDao extends AbstractDao<Shop, Long> {
     public Shop readEntity(Cursor cursor, int offset) {
         Shop entity = new Shop( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getString(offset + 1) // name
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // name
         );
         return entity;
     }
@@ -82,7 +86,7 @@ public class ShopDao extends AbstractDao<Shop, Long> {
     @Override
     public void readEntity(Cursor cursor, Shop entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setName(cursor.getString(offset + 1));
+        entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
      }
     
     /** @inheritdoc */

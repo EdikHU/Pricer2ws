@@ -70,6 +70,15 @@ public class ProductList extends Activity {
 				productList.add(prod);
 			}
 			productListAdapter.notifyDataSetChanged();
+			
+//			productList = DB.inst.getProductDao().loadAll();
+//			productListAdapter = new ProductListAdapter(this,productList );
+//			lv.setAdapter(productListAdapter);
+//
+//			List<Product> tmpProd = DB.inst.getProductDao().loadAll();
+//			System.out.println("HERE *** (onActivityResult productList)["+tmpProd+"]");
+
+			
 		}
 	}
 	

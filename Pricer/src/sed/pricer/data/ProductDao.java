@@ -30,7 +30,6 @@ public class ProductDao extends AbstractDao<Product, Long> {
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property FactoryId = new Property(2, Long.class, "factoryId", false, "FACTORY_ID");
         public final static Property GroupId = new Property(3, Long.class, "groupId", false, "GROUP_ID");
-        public final static Property PriceId = new Property(4, Long.class, "priceId", false, "PRICE_ID");
     };
 
     private DaoSession daoSession;
@@ -52,8 +51,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'NAME' TEXT," + // 1: name
                 "'FACTORY_ID' INTEGER," + // 2: factoryId
-                "'GROUP_ID' INTEGER," + // 3: groupId
-                "'PRICE_ID' INTEGER);"); // 4: priceId
+                "'GROUP_ID' INTEGER);"); // 3: groupId
     }
 
     /** Drops the underlying database table. */
@@ -86,11 +84,6 @@ public class ProductDao extends AbstractDao<Product, Long> {
         if (groupId != null) {
             stmt.bindLong(4, groupId);
         }
- 
-        Long priceId = entity.getPriceId();
-        if (priceId != null) {
-            stmt.bindLong(5, priceId);
-        }
     }
 
     @Override
@@ -112,8 +105,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
             cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // factoryId
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // groupId
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // priceId
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3) // groupId
         );
         return entity;
     }
@@ -125,7 +117,6 @@ public class ProductDao extends AbstractDao<Product, Long> {
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setFactoryId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
         entity.setGroupId(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
-        entity.setPriceId(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
      }
     
     /** @inheritdoc */

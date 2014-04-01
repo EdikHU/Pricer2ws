@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class Factory implements Serializable{
 
-	private Long id;
+    private Long id;
     private String name;
 
     // KEEP FIELDS - put your custom fields here
@@ -45,7 +45,6 @@ public class Factory implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-
 
     // KEEP METHODS - put your custom methods here
 	@Override
