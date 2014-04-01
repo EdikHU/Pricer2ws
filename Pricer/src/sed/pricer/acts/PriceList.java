@@ -27,7 +27,7 @@ public class PriceList extends Activity implements OnClickListener{
 		priceList = prod.getPrices();
 		
 		ListView lv = (ListView)findViewById(R.id.price_list_list_view);
-		priceListAdapter = new PriceListAdapter(this,priceList);
+		priceListAdapter = new PriceListAdapter(this,priceList); 
 		lv.setAdapter(priceListAdapter );
 	}
 
@@ -44,8 +44,19 @@ public class PriceList extends Activity implements OnClickListener{
 		} else if(v.getId() == R.id.price_list_btn_modify){
 //			Product tmpProd = DB.inst.getProductDao().load(prod.getId());
 //			System.out.println("HERE (pricelist) * ["+tmpProd.getPrices()+"]");
-			
+			fillPriceFromView();
+			System.out.println("["+prod+"]["+price+"]");
+			price.setProductId(prod.getId());
+			DB.update(price);
+			priceList.add(price);
+			DB.update(prod);
+			priceListAdapter.notifyDataSetChanged();
 		}
+		
+	}
+
+	private void fillPriceFromView() {
+		// TODO Auto-generated method stub
 		
 	}
 
