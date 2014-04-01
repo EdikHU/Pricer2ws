@@ -18,7 +18,7 @@ import android.widget.ListView;
 public class ProductList extends Activity {
 
 	protected static final int RC_SHOW_PRODUCT_DETAIL = 0;
-	public static final String PROD_ITEM_ID = "prodItemID";
+	public static final String PROD_ITEM = "prodItemID";
 	private ProductListAdapter productListAdapter;
 	private ListView lv;
 	private List<Product> productList;
@@ -43,7 +43,7 @@ public class ProductList extends Activity {
 					long arg3) {
 				Intent intent = new Intent(context,ProductDetail.class);
 				Product prod = productList.get(arg2);
-				intent.putExtra(PROD_ITEM_ID, prod);
+				intent.putExtra(PROD_ITEM, prod);
 				startActivityForResult(intent , RC_SHOW_PRODUCT_DETAIL);
 			}
 		});
@@ -56,7 +56,7 @@ public class ProductList extends Activity {
 				productList.remove(arg2);
 				DB.delete(prodItem);
 				productListAdapter.notifyDataSetChanged();
-				return false;
+				return true;
 			}
 		});
 	}
@@ -74,13 +74,14 @@ public class ProductList extends Activity {
 	}
 	
 	public void onClick(View v){
-		Product prod = new Product();
-		prod.setName("<<"+((""+new Date()).split("\\s")[3])+">>");
-		DB.insert(prod);
-		productList.add(prod);
-		if (v.getId() == R.id.product_list_btn_fd){
+		if (v.getId() == R.id.product_list_btn_del){
 			DB.inst.getProductDao().deleteAll();
 			productList.clear();
+		} else if (v.getId() == R.id.product_list_btn_add){
+			Product prod = new Product();
+			prod.setName("<<"+((""+new Date()).split("\\s")[3])+">>");
+			DB.insert(prod);
+			productList.add(prod);
 		}
 		productListAdapter.notifyDataSetChanged();
 	}

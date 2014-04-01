@@ -4,18 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="@string/product_list_btn_add" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/product_list_btn_fd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="@string/product_list_btn_fd" />
+        <Button
+            android:id="@+id/product_list_btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="@string/product_list_btn_add" />
+
+        <Button
+            android:id="@+id/product_list_btn_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="@string/product_list_btn_del" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/product_list_list_view"

@@ -50,7 +50,7 @@ public class Factory implements Serializable{
     // KEEP METHODS - put your custom methods here
 	@Override
 	public String toString() {
-		return "Factory[" + id + "][" + name + "]";
+		return "" + name + " ("+id+")";
 	}
     // KEEP METHODS END
 

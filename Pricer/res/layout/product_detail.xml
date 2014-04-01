@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+    
+    
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/product_detail_tv_name" />
+        android:text="@string/product_detail_name_lbl" />
 
     <EditText
         android:id="@+id/product_detail_name"
@@ -17,24 +18,44 @@
         <requestFocus />
     </EditText>
 
+    
+    
     <TextView
-        android:id="@+id/product_detail_tv_group"
+        android:id="@+id/product_detail_factory_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/product_detail_tv_group" />
+        android:text="@string/product_detail_factory_lbl" />
+
+    <TextView
+        android:id="@+id/product_detail_factory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    
+    
+    <TextView
+        android:id="@+id/product_detail_group_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/product_detail_group_lbl" />
 
     <TextView
         android:id="@+id/product_detail_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    
+    
+    
+    
     <TextView
+        android:id="@+id/product_detail_price_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/product_detail_tv_price" />
+        android:text="@string/product_detail_price_lbl" />
 
     <ListView
-        android:id="@+id/product_detail_price"
+        android:id="@+id/product_detail_price_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>

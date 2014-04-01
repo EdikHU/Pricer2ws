@@ -31,6 +31,13 @@
             android:layout_height="wrap_content"
             android:text="@string/group_list_btn_remove" />
 
+        <Button
+            android:id="@+id/group_list_btn_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="@string/group_list_btn_new" />
+
     </LinearLayout>
 
     <ListView

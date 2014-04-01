@@ -25,6 +25,8 @@
         <activity android:name=".acts.ProductList" android:label="LabelAPCL"></activity>
         <activity android:name=".acts.ProductDetail"></activity>
         <activity android:name=".acts.GroupList"></activity>
+        <activity android:name=".acts.FactoryList"></activity>
+        <activity android:name=".acts.PriceList"></activity>
     </application>
 
 </manifest>

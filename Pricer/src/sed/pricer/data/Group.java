@@ -127,9 +127,7 @@ public class Group implements Serializable{
     // KEEP METHODS - put your custom methods here
 	@Override
 	public String toString() {
-		return "Group [id=" + id + ", name=" + name + ", categoryId="
-				+ categoryId + ", category=" + category
-				+ ", category__resolvedKey=" + category__resolvedKey + "]";
+		return ""+name+"("+id+")";
 	}
     // KEEP METHODS END
 

@@ -195,13 +195,12 @@ public class Product implements Serializable{
         myDao.refresh(this);
     }
 
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", factory=" + factory
-				+ ", group=" + group + ", priceList=" + priceList + "]";
-	}
 
     // KEEP METHODS - put your custom methods here
+	@Override
+	public String toString() {
+		return "["+id+"]["+getGroup()+"]["+name+"]["+getFactory()+"]["+getPriceList()+"]";
+	}
     // KEEP METHODS END
 
 }
