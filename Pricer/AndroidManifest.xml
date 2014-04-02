@@ -27,6 +27,7 @@
         <activity android:name=".acts.GroupList"></activity>
         <activity android:name=".acts.FactoryList"></activity>
         <activity android:name=".acts.PriceList"></activity>
+        <activity android:name=".acts.TheHolderAct"></activity>
     </application>
 
 </manifest>

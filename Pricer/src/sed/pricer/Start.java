@@ -3,6 +3,7 @@ package sed.pricer;
 import java.util.concurrent.TimeUnit;
 
 import sed.pricer.acts.ProductList;
+import sed.pricer.acts.TheHolderAct;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -53,7 +54,8 @@ public class Start extends Activity {
 				super.onPostExecute(result);
 				context.finish();
 				//if (hehe != 0) 
-				startActivity(new Intent(context,ProductList.class));
+				//startActivity(new Intent(context,ProductList.class));
+				startActivity(new Intent(context,TheHolderAct.class));
 			}
 			
 			protected void onProgressUpdate(String... s) {
