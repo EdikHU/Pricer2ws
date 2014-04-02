@@ -91,42 +91,40 @@ public class Start {
 		productToPrices.setName("prices");
 		productToPrices.orderAsc(priceDateProp);
 		
-		
-		
-		//----------------
-		Entity relation = s.addEntity("Relation");
-		relation.setHasKeepSections(true);
-		relation.setTableName("T_THE_RELATION");
-		relation.addIdProperty();
-		Property relation_theHolderId = relation.addLongProperty("relation_theHolderId").getProperty();
-		Property relation_theItemId = relation.addLongProperty("relation_theItemId").getProperty();
-		
-		Entity theItem = s.addEntity("TheItem");
-		theItem.setHasKeepSections(true);
-		theItem.setTableName("T_THE_ITEM");
-		theItem.addIdProperty();
-		theItem.addStringProperty("name");
-//		Property item_theHolderId = theItem.addLongProperty("item_theHolderId").getProperty();
-		
-		Entity theHolder = s.addEntity("TheHolder");
-		theHolder.setHasKeepSections(true);
-		theHolder.setTableName("T_THE_HOLDER");
-		theHolder.addIdProperty();
-		theHolder.addStringProperty("name");
-
-//		theItem.addToOne(theHolder, item_theHolderId);
-		
-//		theHolder.addToMany(theItem, item_theHolderId);
-		
-		relation.addToOne(theItem, relation_theItemId);
-		relation.addToOne(theHolder, relation_theHolderId);
-		
-		ToMany itemToHolder = theItem.addToMany(relation, relation_theItemId);
-		itemToHolder.setName("holders");
-		ToMany holderToItems = theHolder.addToMany(relation, relation_theHolderId);
-		holderToItems.setName("items");
-		
-		
 	}
 
 }
+
+//----------------
+//Entity relation = s.addEntity("Relation");
+//relation.setHasKeepSections(true);
+//relation.setTableName("T_THE_RELATION");
+//relation.addIdProperty();
+//Property relation_theHolderId = relation.addLongProperty("relation_theHolderId").getProperty();
+//Property relation_theItemId = relation.addLongProperty("relation_theItemId").getProperty();
+//
+//Entity theItem = s.addEntity("TheItem");
+//theItem.setHasKeepSections(true);
+//theItem.setTableName("T_THE_ITEM");
+//theItem.addIdProperty();
+//theItem.addStringProperty("name");
+////Property item_theHolderId = theItem.addLongProperty("item_theHolderId").getProperty();
+//
+//Entity theHolder = s.addEntity("TheHolder");
+//theHolder.setHasKeepSections(true);
+//theHolder.setTableName("T_THE_HOLDER");
+//theHolder.addIdProperty();
+//theHolder.addStringProperty("name");
+//
+////theItem.addToOne(theHolder, item_theHolderId);
+//
+////theHolder.addToMany(theItem, item_theHolderId);
+//
+//relation.addToOne(theItem, relation_theItemId);
+//relation.addToOne(theHolder, relation_theHolderId);
+//
+//ToMany itemToHolder = theItem.addToMany(relation, relation_theItemId);
+//itemToHolder.setName("holders");
+//ToMany holderToItems = theHolder.addToMany(relation, relation_theHolderId);
+//holderToItems.setName("items");
+
