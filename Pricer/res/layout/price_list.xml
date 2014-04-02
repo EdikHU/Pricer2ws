@@ -18,10 +18,11 @@
         android:onClick="onClick"
         android:text="@string/price_list_btn_modify" />
 
-    <DatePicker
+    <LinearLayout
         android:id="@+id/price_list_date"
         android:layout_width="match_parent"
-        android:layout_height="178dp" />
+        android:layout_height="178dp"
+        android:orientation="vertical" />
 
     
     <TextView
