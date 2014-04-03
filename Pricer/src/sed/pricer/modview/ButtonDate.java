@@ -18,8 +18,8 @@ import android.widget.DatePicker;
 @SuppressLint("ValidFragment")
 public class ButtonDate extends Button {
 
-	protected Context thisContext;
-	static Date date = new Date();
+	private Context thisContext;
+	private static Date date = new Date();
 	
 	public ButtonDate(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -33,7 +33,7 @@ public class ButtonDate extends Button {
 
 	private void init(Context context) {
 		this.thisContext = context;
-		setText(""+ date);
+		setText(""+ getDate());
 		
 		this.setOnClickListener(new OnClickListener() {
 			@Override
@@ -43,6 +43,14 @@ public class ButtonDate extends Button {
 				df.show(manager, "");
 			}
 		});
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public static void setDate(Date date) {
+		ButtonDate.date = date;
 	}
 
 	private static class TheDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
@@ -69,7 +77,7 @@ public class ButtonDate extends Button {
 				int dayOfMonth) {
 			c.set(year, monthOfYear, dayOfMonth);
 			parent.setText(""+ new Date(c.getTimeInMillis()));
-			date = new Date(c.getTimeInMillis());
+			setDate(new Date(c.getTimeInMillis()));
 		}
 	}
 	

@@ -1,10 +1,12 @@
 package sed.pricer.acts;
 
+import java.util.Date;
 import java.util.List;
 import sed.pricer.R;
 import sed.pricer.data.DB;
 import sed.pricer.data.Price;
 import sed.pricer.data.Product;
+import sed.pricer.modview.ButtonDate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -67,6 +69,13 @@ public class PriceList extends Activity implements OnClickListener{
 	private void fillViewFromPrice() {
 	}
 
+	@Override
+	public void onBackPressed() {
+		ButtonDate bd = (ButtonDate) findViewById(R.id.price_list_btn_date);
+		Date ss = bd.getDate();
+		System.out.println(ss);
+		super.onBackPressed();
+	}
 	
 }
 
