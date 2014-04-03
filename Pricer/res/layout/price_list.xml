@@ -18,11 +18,10 @@
         android:onClick="onClick"
         android:text="@string/price_list_btn_modify" />
 
-    <LinearLayout
-        android:id="@+id/price_list_date"
-        android:layout_width="match_parent"
-        android:layout_height="178dp"
-        android:orientation="vertical" />
+    <sed.pricer.modview.ButtonDate
+        android:id="@+id/price_list_btn_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  />
 
     
     <TextView
