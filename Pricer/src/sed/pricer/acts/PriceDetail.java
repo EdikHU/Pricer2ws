@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 
-public class PriceList extends Activity implements OnClickListener{
+public class PriceDetail extends Activity implements OnClickListener{
 
 	private Product prod;
 	private List<Price> priceList;
@@ -23,7 +23,7 @@ public class PriceList extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.price_list);
+		setContentView(R.layout.price_detail);
 		
 		prod = DB.inst.getProductDao().load(((Product)getIntent().getSerializableExtra(ProductDetail.FIELD_PRICE)).getId());
 		priceList = prod.getPrices();

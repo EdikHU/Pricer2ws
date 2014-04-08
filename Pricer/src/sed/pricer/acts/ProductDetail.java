@@ -50,7 +50,7 @@ public class ProductDetail extends Activity {
 				Intent intent = new Intent(context,FactoryList.class);
 				intent.putExtra(FIELD_FACTORY, prod.getFactory());
 				startActivityForResult(intent , RC_SHOW_FACTORY);
-			}
+			} 
 		});
 		
 		// group
@@ -70,10 +70,12 @@ public class ProductDetail extends Activity {
 		ListView lv = ((ListView)findViewById(R.id.product_detail_price_list_view));//.setText(prod.getGroup().getName());
 		ListAdapter priceListAdapter = new PriceListAdapter(this,priceList);
 		lv.setAdapter(priceListAdapter);
+		
+		//add new price
 		((TextView)findViewById(R.id.product_detail_price_lbl)).setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context,PriceList.class);
+			public void onClick(View v) { 
+				Intent intent = new Intent(context,PriceDetail.class);
 				intent.putExtra(FIELD_PRICE, prod);
 				startActivityForResult(intent , RC_SHOW_PRICE);
 			}
