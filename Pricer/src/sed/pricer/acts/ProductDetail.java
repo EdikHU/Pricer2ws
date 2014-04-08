@@ -76,7 +76,7 @@ public class ProductDetail extends Activity {
 			@Override
 			public void onClick(View v) { 
 				Intent intent = new Intent(context,PriceDetail.class);
-				intent.putExtra(FIELD_PRICE, prod);
+				//intent.putExtra(FIELD_PRICE, null);
 				startActivityForResult(intent , RC_SHOW_PRICE);
 			}
 		});

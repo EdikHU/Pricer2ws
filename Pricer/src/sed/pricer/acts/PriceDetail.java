@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
 
 public class PriceDetail extends Activity implements OnClickListener{
 
@@ -28,10 +27,19 @@ public class PriceDetail extends Activity implements OnClickListener{
 		prod = DB.inst.getProductDao().load(((Product)getIntent().getSerializableExtra(ProductDetail.FIELD_PRICE)).getId());
 		priceList = prod.getPrices();
 		
-		ListView lv = (ListView)findViewById(R.id.price_list_list_view);
-		priceListAdapter = new PriceListAdapter(this,priceList); 
-		lv.setAdapter(priceListAdapter );
+		fillViewFromPrice();
 		
+		findViewById(R.id.price_detail_shop_lbl).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// show new detail Shop
+			}
+		});
+		
+		//list shops here
+		// click - edit (show detail shop)
+		// long click remove
+		//
 		
 	}
 
@@ -39,7 +47,7 @@ public class PriceDetail extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.price_list_btn_new){
+		if (v.getId() == R.id.price_detail_btn_new){
 			price = new Price();
 			price.setProductId(prod.getId());
 			DB.insert(price);
@@ -47,7 +55,7 @@ public class PriceDetail extends Activity implements OnClickListener{
 			priceList.add(price);
 			DB.update(prod);
 			priceListAdapter.notifyDataSetChanged();
-		} else if(v.getId() == R.id.price_list_btn_modify){
+		} else if(v.getId() == R.id.price_detail_btn_modify){
 //			Product tmpProd = DB.inst.getProductDao().load(prod.getId());
 //			System.out.println("HERE (pricelist) * ["+tmpProd.getPrices()+"]");
 			fillPriceFromView();
@@ -71,9 +79,11 @@ public class PriceDetail extends Activity implements OnClickListener{
 
 	@Override
 	public void onBackPressed() {
-		ButtonDate bd = (ButtonDate) findViewById(R.id.price_list_btn_date);
+		ButtonDate bd = (ButtonDate) findViewById(R.id.price_detail_btn_date);
 		Date ss = bd.getDate();
 		System.out.println(ss);
+		//
+		fillViewFromPrice();
 		super.onBackPressed();
 	}
 	
