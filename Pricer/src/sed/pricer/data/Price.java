@@ -17,7 +17,7 @@ public class Price implements Serializable{
     private Long id;
     private Float cost;
     private java.util.Date date;
-    private Long shopID;
+    private Long shopId;
     private Long productId;
 
     /** Used to resolve relations */
@@ -44,11 +44,11 @@ public class Price implements Serializable{
         this.id = id;
     }
 
-    public Price(Long id, Float cost, java.util.Date date, Long shopID, Long productId) {
+    public Price(Long id, Float cost, java.util.Date date, Long shopId, Long productId) {
         this.id = id;
         this.cost = cost;
         this.date = date;
-        this.shopID = shopID;
+        this.shopId = shopId;
         this.productId = productId;
     }
 
@@ -82,12 +82,12 @@ public class Price implements Serializable{
         this.date = date;
     }
 
-    public Long getShopID() {
-        return shopID;
+    public Long getShopId() {
+        return shopId;
     }
 
-    public void setShopID(Long shopID) {
-        this.shopID = shopID;
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public Long getProductId() {
@@ -100,7 +100,7 @@ public class Price implements Serializable{
 
     /** To-one relationship, resolved on first access. */
     public Shop getShop() {
-        Long __key = this.shopID;
+        Long __key = this.shopId;
         if (shop__resolvedKey == null || !shop__resolvedKey.equals(__key)) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -118,8 +118,8 @@ public class Price implements Serializable{
     public void setShop(Shop shop) {
         synchronized (this) {
             this.shop = shop;
-            shopID = shop == null ? null : shop.getId();
-            shop__resolvedKey = shopID;
+            shopId = shop == null ? null : shop.getId();
+            shop__resolvedKey = shopId;
         }
     }
 
@@ -175,7 +175,7 @@ public class Price implements Serializable{
     // KEEP METHODS - put your custom methods here
 	@Override
 	public String toString() {
-		return "["+date+" "+cost+" "+shop+"]";
+		return "[("+getId()+")"+getDate()+" "+getCost()+" "+getShop()+"]";
 	}
     // KEEP METHODS END
 

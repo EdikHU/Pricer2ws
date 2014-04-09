@@ -1,7 +1,5 @@
 package sed.pricer.acts;
 
-import java.util.List;
-
 import sed.pricer.R;
 import sed.pricer.data.DB;
 import sed.pricer.data.Price;
@@ -33,23 +31,16 @@ public class PriceDetail extends Activity implements OnClickListener{
 		
 		price = (Price)getIntent().getSerializableExtra(ProductDetail.ELEMENT_PRICE);
 		price = DB.inst.getPriceDao().load(price.getId());
+
+		System.out.println("#############\n here processing price\n"+price);
 		
 		fillViewFromPrice();
 		
 		findViewById(R.id.price_detail_shop_lbl).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-				List<Shop> shopList = DB.inst.getShopDao().loadAll();
-				if (shopList.size() == 0){
-					Shop shop = new Shop();
-					shop.setName("asahan");
-					DB.insert(shop);
-					//DB.refresh();
-				}
-				
+			
 				Intent intent = new Intent(context,ShopList.class);
-				//intent.putExtra(PRICE_DETAIL_SHOP_LIST, shopList);
 				startActivityForResult(intent , REQ_CODE_SHOW_SHOP_LIST);
 			}
 		});
@@ -79,7 +70,7 @@ public class PriceDetail extends Activity implements OnClickListener{
 		price.update();
 		DB.refresh();
 		price = DB.inst.getPriceDao().load(price.getId());
-		System.out.println("##################\n fillPriceFromView price.getShop() = "+ price.getShop());
+//		System.out.println("##################\n fillPriceFromView price.getShop() = "+ price.getShop());
 	}
 
 	@Override
@@ -106,22 +97,33 @@ public class PriceDetail extends Activity implements OnClickListener{
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 //		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQ_CODE_SHOW_SHOP_LIST){
-			System.out.println("");
 			Shop shop = (Shop)intent.getSerializableExtra(PRICE_DETAIL_FIELD_SHOP);
 			if (shop != null){
 				shop = DB.inst.getShopDao().load(shop.getId());
-				price.setShop(shop);
-				price.setShopID(shop.getId());
-				System.out.println("["+shop.getId()+"]["+shop+"]  ["+price.getShopID()+"]["+price.getShop()+"]");
-				price.update();
 
-				DB.close();
-				DB.init(context);
+				System.out.println("----------> activity result. inside priceDetail need save shop in price \n"+price);
+
+				price.setShop(shop);
+
+				System.out.println("----------> activity result. inside priceDetail try save shop in price \n"+price);
 				
-				price = DB.inst.getPriceDao().load(price.getId());
-				System.out.println("##################\n onActivityResult price.getShop() = "+ price.getShop());
-				DB.refresh();
+//				DB.update(shop);
+//				DB.update(price);
+				price.update();
+				
+
+//				DB.close();
+//				DB.init(context);
+//				DB.refresh();
+				
+//				price = DB.inst.getPriceDao().load(price.getId());
+				price.toString();
+
+				
 				fillViewFromPrice();
+				
+				System.out.println("----------> activity result. inside priceDetail after save shop in price \n"+price);
+
 			}
 		}
 	}

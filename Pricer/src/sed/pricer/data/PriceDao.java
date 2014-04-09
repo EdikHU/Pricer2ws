@@ -31,7 +31,7 @@ public class PriceDao extends AbstractDao<Price, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Cost = new Property(1, Float.class, "cost", false, "COST");
         public final static Property Date = new Property(2, java.util.Date.class, "date", false, "DATE");
-        public final static Property ShopID = new Property(3, Long.class, "shopID", false, "SHOP_ID");
+        public final static Property ShopId = new Property(3, Long.class, "shopId", false, "SHOP_ID");
         public final static Property ProductId = new Property(4, Long.class, "productId", false, "PRODUCT_ID");
     };
 
@@ -55,7 +55,7 @@ public class PriceDao extends AbstractDao<Price, Long> {
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'COST' REAL," + // 1: cost
                 "'DATE' INTEGER," + // 2: date
-                "'SHOP_ID' INTEGER," + // 3: shopID
+                "'SHOP_ID' INTEGER," + // 3: shopId
                 "'PRODUCT_ID' INTEGER);"); // 4: productId
     }
 
@@ -85,9 +85,9 @@ public class PriceDao extends AbstractDao<Price, Long> {
             stmt.bindLong(3, date.getTime());
         }
  
-        Long shopID = entity.getShopID();
-        if (shopID != null) {
-            stmt.bindLong(4, shopID);
+        Long shopId = entity.getShopId();
+        if (shopId != null) {
+            stmt.bindLong(4, shopId);
         }
  
         Long productId = entity.getProductId();
@@ -115,7 +115,7 @@ public class PriceDao extends AbstractDao<Price, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getFloat(offset + 1), // cost
             cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)), // date
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // shopID
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // shopId
             cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // productId
         );
         return entity;
@@ -127,7 +127,7 @@ public class PriceDao extends AbstractDao<Price, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setCost(cursor.isNull(offset + 1) ? null : cursor.getFloat(offset + 1));
         entity.setDate(cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)));
-        entity.setShopID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setShopId(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
         entity.setProductId(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
      }
     

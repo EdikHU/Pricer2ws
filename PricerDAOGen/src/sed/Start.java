@@ -81,7 +81,7 @@ public class Start {
 		price.addFloatProperty("cost");
 		Property priceDateProp = price.addDateProperty("date").getProperty();
 		
-		Property shopId = price.addLongProperty("shopID").getProperty();
+		Property shopId = price.addLongProperty("shopId").getProperty();
 		price.addToOne(shop, shopId);
 		
 		Property productId = price.addLongProperty("productId").getProperty();
