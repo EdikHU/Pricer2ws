@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -53,7 +54,7 @@ public class ShopList extends Activity{
 		btnShow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				System.out.println("########## \n"+DB.inst.getShopDao().loadAll());
+				//System.out.println("########## \n"+DB.inst.getShopDao().loadAll());
 			}
 		});
 		
@@ -67,12 +68,21 @@ public class ShopList extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+
 				Intent intent = new Intent();
 				Shop shop = DB.inst.getShopDao().load(shopList.get(position).getId());
-				System.out.println("----------> return to price \n"+shop);
 				intent.putExtra(PriceDetail.PRICE_DETAIL_FIELD_SHOP, shop);
+				
 				setResult(PriceDetail.REQ_CODE_SHOW_SHOP_LIST, intent);
 				finish();
+			}
+		});
+		
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				return false;
 			}
 		});
 	}

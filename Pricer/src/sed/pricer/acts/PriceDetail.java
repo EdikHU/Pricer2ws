@@ -32,7 +32,6 @@ public class PriceDetail extends Activity implements OnClickListener{
 		price = (Price)getIntent().getSerializableExtra(ProductDetail.ELEMENT_PRICE);
 		price = DB.inst.getPriceDao().load(price.getId());
 
-		System.out.println("#############\n here processing price\n"+price);
 		
 		fillViewFromPrice();
 		
@@ -66,11 +65,8 @@ public class PriceDetail extends Activity implements OnClickListener{
 		}catch(Exception e){
 			price.setCost((float) 0.0);
 		}
-//		price.setShop(null);
 		price.update();
 		DB.refresh();
-		price = DB.inst.getPriceDao().load(price.getId());
-//		System.out.println("##################\n fillPriceFromView price.getShop() = "+ price.getShop());
 	}
 
 	@Override
@@ -95,52 +91,20 @@ public class PriceDetail extends Activity implements OnClickListener{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQ_CODE_SHOW_SHOP_LIST){
 			Shop shop = (Shop)intent.getSerializableExtra(PRICE_DETAIL_FIELD_SHOP);
 			if (shop != null){
-				shop = DB.inst.getShopDao().load(shop.getId());
-
-				System.out.println("----------> activity result. inside priceDetail need save shop in price \n"+price);
+//				shop = DB.inst.getShopDao().load(shop.getId());
 
 				price.setShop(shop);
-
-				System.out.println("----------> activity result. inside priceDetail try save shop in price \n"+price);
-				
-//				DB.update(shop);
-//				DB.update(price);
 				price.update();
-				
-
-//				DB.close();
-//				DB.init(context);
-//				DB.refresh();
-				
-//				price = DB.inst.getPriceDao().load(price.getId());
 				price.toString();
 
-				
-				fillViewFromPrice();
-				
-				System.out.println("----------> activity result. inside priceDetail after save shop in price \n"+price);
+				((TextView)findViewById(R.id.price_detail_shop)).setText(""+price.getShop());
+				//fillViewFromPrice();
 
 			}
 		}
 	}
 }
 
-//priceList.clear();
-//Shop s = new Shop();
-//s.setName("aushan3");
-//DB.insert(s);
-//
-//Price p = new Price();
-//p.setDate(new Date());
-//p.setCost((float) 3.14);
-//p.setShop(s);
-//
-//DB.insert(p);
-//priceList.add(p);
-//DB.update(prod);
-//
-//System.out.println("-----\n"+priceList);
