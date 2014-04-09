@@ -20,6 +20,10 @@
     <string name="price_detail_btn_new">New</string>
     <string name="price_detail_btn_modify">Mod</string>
     <string name="price_detail_cost_lbl">Cost</string>
-    <string name="price_detail_shop_lbl">Shop</string> 
+    <string name="price_detail_shop_lbl">Shop</string>
+    
+    
+    <string name="btn_Ok"> Ok </string>
+    <string name="btn_Cancel"> Cancel </string> 
     
 </resources>

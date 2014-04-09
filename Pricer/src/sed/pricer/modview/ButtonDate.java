@@ -50,8 +50,10 @@ public class ButtonDate extends Button {
 	}
 
 	public void setDate(Date date) {
-		ButtonDate.date = date;
-		setText(""+ getDate());
+		if (date != null){
+			ButtonDate.date = date;
+			setText(""+ getDate());
+		}
 	}
 
 	private static class TheDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{

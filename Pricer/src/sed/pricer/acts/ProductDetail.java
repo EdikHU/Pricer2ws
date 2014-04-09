@@ -116,8 +116,6 @@ public class ProductDetail extends Activity {
 		priceList = prod.getPrices();
 		ListAdapter priceListAdapter = new PriceListAdapter(this,priceList);
 		prices.setAdapter(priceListAdapter);
-		
-		System.out.println("--------->>>>  "+priceList.size());
 
 	}
 

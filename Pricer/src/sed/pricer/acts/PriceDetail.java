@@ -1,9 +1,10 @@
 package sed.pricer.acts;
 
+import java.util.List;
+
 import sed.pricer.R;
 import sed.pricer.data.DB;
 import sed.pricer.data.Price;
-import sed.pricer.data.Product;
 import sed.pricer.data.Shop;
 import sed.pricer.modview.ButtonDate;
 import android.app.Activity;
@@ -15,11 +16,12 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class PriceDetail extends Activity {
+public class PriceDetail extends Activity implements OnClickListener{
 
 	protected static final int REQ_CODE_SHOW_SHOP_DETAIL = 83786283;
-	protected static final String PRICE_DETAIL_FIELD_SHOP = "";
-//	private PriceListAdapter priceListAdapter;
+	protected static final String PRICE_DETAIL_FIELD_SHOP = "fieldShop";
+	protected static final String PRICE_DETAIL_SHOP_LIST = "shopList";
+	protected static final int REQ_CODE_SHOW_SHOP_LIST = 768998234;
 	private Price price;
 	private Context context;
 
@@ -29,25 +31,26 @@ public class PriceDetail extends Activity {
 		context = this;
 		setContentView(R.layout.price_detail);
 		
-//		prod = DB.inst.getProductDao().load(((Product)getIntent().getSerializableExtra(ProductDetail.ELEMENT_PRICE)).getId());
-//		priceList = prod.getPrices();
 		price = (Price)getIntent().getSerializableExtra(ProductDetail.ELEMENT_PRICE);
 		price = DB.inst.getPriceDao().load(price.getId());
 		
-		Product prod = DB.inst.getProductDao().load(price.getProduct().getId());
-		int ps = prod.getPrices().size();
-		System.out.println("############\n start processing PriceDetail for product id = "+price.getProduct().getId()+" prod.getPrices().size() = "+ps);
 		fillViewFromPrice();
 		
 		findViewById(R.id.price_detail_shop_lbl).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
-				Shop shop = new Shop();
+				List<Shop> shopList = DB.inst.getShopDao().loadAll();
+				if (shopList.size() == 0){
+					Shop shop = new Shop();
+					shop.setName("asahan");
+					DB.insert(shop);
+					//DB.refresh();
+				}
 				
-				Intent intent = new Intent(context,ShopDetail.class);
-				intent.putExtra(PRICE_DETAIL_FIELD_SHOP, shop);
-				startActivityForResult(intent , REQ_CODE_SHOW_SHOP_DETAIL);
+				Intent intent = new Intent(context,ShopList.class);
+				//intent.putExtra(PRICE_DETAIL_SHOP_LIST, shopList);
+				startActivityForResult(intent , REQ_CODE_SHOW_SHOP_LIST);
 			}
 		});
 		
@@ -58,61 +61,70 @@ public class PriceDetail extends Activity {
 		
 	}
 
-	
-	
-//	@Override
-//	public void onClick(View v) {
-//		if (v.getId() == R.id.price_detail_btn_new){
-//			price = new Price();
-//			price.setProductId(prod.getId());
-//			DB.insert(price);
-//			fillViewFromPrice();
-//			priceList.add(price);
-//			DB.update(prod);
-//			priceListAdapter.notifyDataSetChanged();
-//		} else if(v.getId() == R.id.price_detail_btn_modify){
-////			Product tmpProd = DB.inst.getProductDao().load(prod.getId());
-////			System.out.println("HERE (pricelist) * ["+tmpProd.getPrices()+"]");
-//			fillPriceFromView();
-//			System.out.println("["+prod+"]["+price+"]");
-//			price.setProductId(prod.getId());
-//			DB.update(price);
-//			priceList.add(price);
-//			DB.update(prod);
-//			priceListAdapter.notifyDataSetChanged();
-//		}
-//		
-//	}
-
 	private void fillViewFromPrice() {
 		 ((ButtonDate)findViewById(R.id.price_detail_btn_date)).setDate(price.getDate());
-		 ((EditText)findViewById(R.id.price_detail_cost)).setText(""+price.getCost());
+		 ((EditText)findViewById(R.id.price_detail_cost)).setText(""+( price.getCost() != null ? price.getCost(): "") );
 		 ((TextView)findViewById(R.id.price_detail_shop)).setText(""+price.getShop());
 	}
 
 	private void fillPriceFromView() {
 		price.setDate(((ButtonDate)findViewById(R.id.price_detail_btn_date)).getDate());
-		price.setCost( Float.parseFloat(  ""+((EditText)findViewById(R.id.price_detail_cost)).getText()  ) );
+		try{
+			float cost = Float.parseFloat(  ""+((EditText)findViewById(R.id.price_detail_cost)).getText()  );
+			price.setCost(cost);
+		}catch(Exception e){
+			price.setCost((float) 0.0);
+		}
 //		price.setShop(null);
 		price.update();
+		DB.refresh();
+		price = DB.inst.getPriceDao().load(price.getId());
+		System.out.println("##################\n fillPriceFromView price.getShop() = "+ price.getShop());
 	}
 
 	@Override
 	public void onBackPressed() {
-//		ButtonDate bd = (ButtonDate) findViewById(R.id.price_detail_btn_date);
-//		Date ss = bd.getDate();
-//		//
-		fillPriceFromView();
-//		DB.close();
-//		DB.init(context);
-		DB.refresh();
-		Product prod = DB.inst.getProductDao().load(price.getProduct().getId());
-		int ps = prod.getPrices().size();
-		System.out.println("############\n exit processing PriceDetail for product id = "+price.getProduct().getId()+" prices.size = "+ps);
-		setResult(ProductDetail.REQUEST_CODE_SHOW_PRICE_DETAIL);
+		price.delete();
 		super.onBackPressed();
 	}
+
+
+
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.price_detail_btn_ok) {
+			fillPriceFromView();
+			setResult(ProductDetail.REQUEST_CODE_SHOW_PRICE_DETAIL);
+			finish();
+		} else if (v.getId() == R.id.price_detail_btn_cancel) {
+			price.delete();
+			finish();
+		}
+	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQ_CODE_SHOW_SHOP_LIST){
+			System.out.println("");
+			Shop shop = (Shop)intent.getSerializableExtra(PRICE_DETAIL_FIELD_SHOP);
+			if (shop != null){
+				shop = DB.inst.getShopDao().load(shop.getId());
+				price.setShop(shop);
+				price.setShopID(shop.getId());
+				System.out.println("["+shop.getId()+"]["+shop+"]  ["+price.getShopID()+"]["+price.getShop()+"]");
+				price.update();
+
+				DB.close();
+				DB.init(context);
+				
+				price = DB.inst.getPriceDao().load(price.getId());
+				System.out.println("##################\n onActivityResult price.getShop() = "+ price.getShop());
+				DB.refresh();
+				fillViewFromPrice();
+			}
+		}
+	}
 }
 
 //priceList.clear();
