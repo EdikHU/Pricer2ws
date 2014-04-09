@@ -175,9 +175,7 @@ public class Price implements Serializable{
     // KEEP METHODS - put your custom methods here
 	@Override
 	public String toString() {
-		return "Price [id=" + id + ", cost=" + cost + ", date=" + date
-				+ ", shopID=" + shopID + ", shop=" + getShop()
-				+ ", shop__resolvedKey=" + shop__resolvedKey + "]\n ";
+		return "["+date+" "+cost+" "+shop+"]";
 	}
     // KEEP METHODS END
 

@@ -8,7 +8,7 @@
     <string name="product_list_btn_del">Del</string>
     <string name="product_detail_name_lbl">ProductName</string>
     <string name="product_detail_group_lbl">Group</string>
-    <string name="product_detail_price_lbl">Price</string> 
+    <string name="product_detail_prices_lbl">Price</string> 
     <string name="group_list_btn_modify">Modify</string> 
     <string name="group_list_btn_remove">Remove</string>
     <string name="product_detail_factory_lbl">Factory</string>

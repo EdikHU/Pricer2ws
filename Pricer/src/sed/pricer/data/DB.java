@@ -34,5 +34,9 @@ public class DB {
 	public static void update(Object item) {
 		inst.update(item);
 	}
+
+	public static void refresh() {
+		inst.clear();
+	}
 	
 }

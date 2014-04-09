@@ -49,8 +49,9 @@ public class ButtonDate extends Button {
 		return date;
 	}
 
-	public static void setDate(Date date) {
+	public void setDate(Date date) {
 		ButtonDate.date = date;
+		setText(""+ getDate());
 	}
 
 	private static class TheDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
@@ -77,7 +78,7 @@ public class ButtonDate extends Button {
 				int dayOfMonth) {
 			c.set(year, monthOfYear, dayOfMonth);
 			parent.setText(""+ new Date(c.getTimeInMillis()));
-			setDate(new Date(c.getTimeInMillis()));
+			date = (new Date(c.getTimeInMillis()));
 		}
 	}
 	

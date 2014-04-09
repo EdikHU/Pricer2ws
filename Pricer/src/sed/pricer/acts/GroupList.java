@@ -24,7 +24,7 @@ public class GroupList extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.group_list);
 
-		group = (Group)getIntent().getSerializableExtra(ProductDetail.FIELD_GROUP);
+		group = (Group)getIntent().getSerializableExtra(ProductDetail.PRODUCT_DETAIL_FIELD_GROUP);
 		groupList = DB.inst.getGroupDao().loadAll();
 
 		if (group == null){
@@ -79,7 +79,7 @@ public class GroupList extends Activity{
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent();
-		intent.putExtra(ProductDetail.FIELD_GROUP, group);
+		intent.putExtra(ProductDetail.PRODUCT_DETAIL_FIELD_GROUP, group);
 		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
