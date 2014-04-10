@@ -30,6 +30,7 @@
         <activity android:name=".acts.TheHolderAct"></activity>
         <activity android:name=".acts.PriceDetail"></activity>
         <activity android:name=".acts.ShopList"></activity>
+        <activity android:name=".acts.ShopDetail"></activity>
     </application>
 
 </manifest>

@@ -27,4 +27,11 @@
         android:onClick="onClick"
         android:text="@string/btn_Cancel" />
 
+    <Button
+        android:id="@+id/shop_detail_btn_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="@string/btn_Remove" />
+
 </LinearLayout>

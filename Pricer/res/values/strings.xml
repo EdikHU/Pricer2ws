@@ -24,6 +24,7 @@
     
     
     <string name="btn_Ok"> Ok </string>
-    <string name="btn_Cancel"> Cancel </string> 
+    <string name="btn_Cancel"> Cancel </string>
+    <string name="btn_Remove"> Remove </string> 
     
 </resources>
