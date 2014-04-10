@@ -46,6 +46,11 @@ public class ShopDetail extends Activity implements OnClickListener{
 			DB.inst.delete(shop);
 			setResult(0, null);
 			finish();
+		} else if(v.getId() == R.id.shop_detail_btn_new){
+			shop = new Shop();
+			shop.setName("new Shop");
+			DB.inst.getShopDao().insert(shop);
+			fillViewFromShop();
 		}
 	}
 
